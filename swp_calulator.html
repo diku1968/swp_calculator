@@ -1,162 +1,176 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SWP Calculator</title>
-    <style>
-        body {
-            font-family: sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
+<title>SWP Calculator</title>
+<style>
+body {
+  font-family: sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f4;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
 
-        .container {
-            background-color: #fff;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 400px;
-        }
+.container {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 400px;
+}
 
-        h1 {
-            text-align: center;
-            color: #333;
-        }
+h1 {
+  text-align: center;
+  color: #333;
+}
 
-        .form-group {
-            margin-bottom: 15px;
-        }
+.form-group {
+  margin-bottom: 15px;
+}
 
-        label {
-            display: block;
-            font-weight: bold;
-            margin-bottom: 5px;
-            color: #555;
-        }
+label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #555;
+}
 
-        input[type="number"] {
-            width: 95%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 16px;
-        }
+input[type="number"] {
+  width: 95%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+}
 
-        button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 12px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-            width: 100%;
-        }
+button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  width: 100%;
+}
 
-        button:hover {
-            background-color: #3e8e41;
-        }
+button:hover {
+  background-color: #3e8e41;
+}
 
-        #result {
-            margin-top: 20px;
-            padding: 15px;
-            background-color: #e9fbea;
-            border: 1px solid #b7dfb8;
-            border-radius: 4px;
-            font-size: 16px;
-            color: #333;
-        }
-    </style>
+#result {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #e9fbea;
+  border: 1px solid #b7dfb8;
+  border-radius: 4px;
+  font-size: 16px;
+  color: #333;
+}
+</style>
 </head>
 <body>
 
-    <div class="container">
-        <h1>SWP Calculator</h1>
+<div class="container">
+  <h1>SWP Calculator</h1>
 
-        <div class="form-group">
-            <label for="investmentAmount">Initial Investment Amount:</label>
-            <input type="number" id="investmentAmount" placeholder="Enter amount" required>
-        </div>
+  <div class="form-group">
+    <label for="investmentAmount">Initial Investment Amount:</label>
+    <input type="number" id="investmentAmount" placeholder="Enter amount" required>
+  </div>
 
-        <div class="form-group">
-            <label for="withdrawalAmount">Monthly Withdrawal Amount:</label>
-            <input type="number" id="withdrawalAmount" placeholder="Enter amount" required>
-        </div>
+  <div class="form-group">
+    <label for="withdrawalAmount">Monthly Withdrawal Amount:</label>
+    <input type="number" id="withdrawalAmount" placeholder="Enter amount" required>
+  </div>
 
-        <div class="form-group">
-            <label for="expectedRate">Expected Annual Rate of Return (%):</label>
-            <input type="number" id="expectedRate" placeholder="Enter percentage (e.g., 10)" required>
-        </div>
+  <div class="form-group">
+    <label for="expectedRate">Expected Annual Rate of Return (%):</label>
+    <input type="number" id="expectedRate" placeholder="Enter percentage (e.g., 10)" required>
+  </div>
 
-        <div class="form-group">
-            <label for="investmentPeriod">Investment Period (Years):</label>
-            <input type="number" id="investmentPeriod" placeholder="Enter number of years" required>
-        </div>
+  <div class="form-group">
+    <label for="investmentPeriod">Investment Period (Years):</label>
+    <input type="number" id="investmentPeriod" placeholder="Enter number of years" required>
+  </div>
 
-        <button onclick="calculateSWP()">Calculate</button>
+  <button onclick="calculateSWP()">Calculate</button>
 
-        <div id="result"></div>
+  <div id="result"></div>
+  <div><p>Developed By Dhiren Pathak</p></div>
+</div>
 
-        <div>
-            <p>Developed By Dhiren Pathak</p>
-        </div>
-    </div>
+<!-- Include TronWeb & SunWeb -->
+<script src="https://cdn.jsdelivr.net/npm/tronweb/dist/TronWeb.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@sunnetwork/sunweb/dist/SunWeb.js"></script>
 
-    <script>
-        // Ensure script is not executed twice
-        if (!window.scriptLoaded) {
-            window.scriptLoaded = true;
+<script>
+  // Initialize SunWeb (Replaces TronWeb sidechain)
+  const sunWeb = new SunWeb({
+    fullNode: "https://api.shasta.trongrid.io",  
+    solidityNode: "https://api.shasta.trongrid.io",
+    eventServer: "https://api.shasta.trongrid.io",
+    privateKey: "your_private_key_here"
+  });
 
-            function calculateSWP() {
-                const investmentAmount = parseFloat(document.getElementById("investmentAmount").value);
-                const withdrawalAmount = parseFloat(document.getElementById("withdrawalAmount").value);
-                const expectedRate = parseFloat(document.getElementById("expectedRate").value) / 100;
-                const investmentPeriod = parseInt(document.getElementById("investmentPeriod").value);
+  async function getTronBalance(address) {
+    try {
+      const balance = await sunWeb.trx.getBalance(address);
+      console.log(`TRX Balance: ${balance / 1e6} TRX`);
+    } catch (error) {
+      console.error("Error fetching balance:", error);
+    }
+  }
 
-                if (isNaN(investmentAmount) || isNaN(withdrawalAmount) || isNaN(expectedRate) || isNaN(investmentPeriod)) {
-                    document.getElementById("result").innerText = "Please enter valid numbers for all fields.";
-                    return;
-                }
+  function calculateSWP() {
+    const investmentAmount = parseFloat(document.getElementById("investmentAmount").value);
+    const withdrawalAmount = parseFloat(document.getElementById("withdrawalAmount").value);
+    const expectedRate = parseFloat(document.getElementById("expectedRate").value) / 100; 
+    const investmentPeriod = parseInt(document.getElementById("investmentPeriod").value);
 
-                if (investmentAmount <= 0 || withdrawalAmount <= 0 || expectedRate <= 0 || investmentPeriod <= 0) {
-                    document.getElementById("result").innerText = "Values must be greater than zero.";
-                    return;
-                }
+    if (isNaN(investmentAmount) || isNaN(withdrawalAmount) || isNaN(expectedRate) || isNaN(investmentPeriod)) {
+      document.getElementById("result").innerText = "Please enter valid numbers for all fields.";
+      return;
+    }
 
-                let currentInvestment = investmentAmount;
-                let totalWithdrawals = 0;
-                let monthlyRate = expectedRate / 12;
-                let months = investmentPeriod * 12;
+    if (investmentAmount <= 0 || withdrawalAmount <= 0 || expectedRate <= 0 || investmentPeriod <= 0) {
+        document.getElementById("result").innerText = "Values must be greater than zero.";
+        return;
+    }
 
-                for (let i = 0; i < months; i++) {
-                    if (currentInvestment <= 0) {
-                        document.getElementById("result").innerText = "Investment depleted before the end of the period.";
-                        return;
-                    }
+    let currentInvestment = investmentAmount;
+    let totalWithdrawals = 0;
+    let monthlyRate = expectedRate / 12;
+    let months = investmentPeriod * 12;
 
-                    currentInvestment += currentInvestment * monthlyRate;
-                    currentInvestment -= withdrawalAmount;
-                    totalWithdrawals += withdrawalAmount;
-                }
+    for (let i = 0; i < months; i++) {
+      if (currentInvestment <= 0) {
+        document.getElementById("result").innerText = "Investment depleted before the end of the period.";
+        return;
+      }
 
-                const finalValue = currentInvestment.toFixed(2);
-                const totalWithdrawalsFormatted = totalWithdrawals.toFixed(2);
+      currentInvestment += currentInvestment * monthlyRate;
+      currentInvestment -= withdrawalAmount;
+      totalWithdrawals += withdrawalAmount;
+    }
 
-                let resultText = `
-                    Final Value: ₹${finalValue}<br>
-                    Total Withdrawals: ₹${totalWithdrawalsFormatted}
-                `;
+    const finalValue = currentInvestment.toFixed(2);
+    const totalWithdrawalsFormatted = totalWithdrawals.toFixed(2);
 
-                document.getElementById("result").innerHTML = resultText;
-            }
-        }
-    </script>
+    let resultText = `
+      Final Value: ₹${finalValue}<br>
+      Total Withdrawals: ₹${totalWithdrawalsFormatted}
+    `;
+
+    document.getElementById("result").innerHTML = resultText;
+  }
+
+  // Example: Get balance of a Tron address (Replace with actual address)
+  getTronBalance("YOUR_TRON_WALLET_ADDRESS");
+</script>
 
 </body>
 </html>
